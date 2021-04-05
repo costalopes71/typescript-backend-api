@@ -49,7 +49,7 @@ class PostContoller implements Controller {
             .then((post) => response.send(post));
     }
 
-    private deletePost(request: express.Request, response: express.Response) {
+    private deletePost = (request: express.Request, response: express.Response): void => {
         const postId = request.params.id;
 
         this.post.findByIdAndDelete(postId)
