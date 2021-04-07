@@ -1,6 +1,8 @@
 import { Controller } from "./controllers/controller.interface";
 import * as express from "express";
 import * as mongoose from "mongoose";
+import { ConnectOptions } from "mongoose";
+import errorMiddleware from "./middlewares/error.middleware";
 
 export class App {
 
@@ -30,6 +32,9 @@ export class App {
     
     private initializeMiddlewares() {
         this.app.use(express.json());
+
+        // initialize error middleware should always be last
+        this.app.use(errorMiddleware);
     }
     
     private connectToDatabase() {
@@ -40,7 +45,7 @@ export class App {
             MONGO_PATH
         } = process.env;
 
-        const dbOptions = 
+        const dbOptions: ConnectOptions = 
             { 
                 useNewUrlParser: true,
                 useUnifiedTopology: true 
