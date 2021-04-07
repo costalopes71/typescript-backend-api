@@ -33,13 +33,20 @@ export class App {
     }
     
     private connectToDatabase() {
+        
         const {
             MONGO_USER,
             MONGO_PASSWORD,
             MONGO_PATH
         } = process.env;
 
-        mongoose.connect(`mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_PATH}`);
+        const dbOptions = 
+            { 
+                useNewUrlParser: true,
+                useUnifiedTopology: true 
+            };
+
+        mongoose.connect(`mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_PATH}`, dbOptions);
     }
     
 }
