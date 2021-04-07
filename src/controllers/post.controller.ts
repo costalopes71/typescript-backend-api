@@ -1,9 +1,9 @@
 import { HttpException } from "../exceptions/HttpException";
+import { PostNotFoundException } from "../exceptions/PostNotFoundException"
 import { NextFunction, Request, Response, Router } from "express";
 import { Post } from "../model/post.interface";
 import post from "../model/posts.model";
 import { Controller } from "./controller.interface";
-import { PostNotFoundException } from "exceptions/PostNotFoundException";
 
 class PostContoller implements Controller {
 
