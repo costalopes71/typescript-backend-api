@@ -1,13 +1,13 @@
 import * as express from "express";
 import { Post } from "../model/post.interface";
-import postModel from "../model/posts.model";
+import post from "../model/posts.model";
 import { Controller } from "./controller.interface";
 
 class PostContoller implements Controller {
 
     path: string = '/post';
     router: express.Router = express.Router();
-    private post = postModel;
+    private post = post;
 
     constructor() {
         this.initializeRoutes();

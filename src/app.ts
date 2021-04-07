@@ -1,4 +1,4 @@
-import { Controller } from "controllers/controller.interface";
+import { Controller } from "./controllers/controller.interface";
 import * as express from "express";
 import * as mongoose from "mongoose";
 
