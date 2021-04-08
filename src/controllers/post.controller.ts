@@ -4,6 +4,8 @@ import { NextFunction, Request, Response, Router } from "express";
 import { Post } from "../model/post.interface";
 import post from "../model/posts.model";
 import { Controller } from "./controller.interface";
+import validationMiddleware from "../middlewares/validation.middleware";
+import { CreatePostDTO } from "../model/post.dto";
 
 class PostContoller implements Controller {
 
@@ -18,8 +20,8 @@ class PostContoller implements Controller {
     private initializeRoutes() {
         this.router.get(this.path, this.getAllPosts);
         this.router.get(`${this.path}/:id`, this.getPostById);
-        this.router.post(this.path, this.createPost);
-        this.router.patch(`${this.path}/:id`, this.modifyPost);
+        this.router.post(this.path, validationMiddleware(CreatePostDTO), this.createPost);
+        this.router.patch(`${this.path}/:id`, validationMiddleware(CreatePostDTO, true), this.modifyPost);
         this.router.delete(`${this.path}/:id`, this.deletePost);
     }
     
