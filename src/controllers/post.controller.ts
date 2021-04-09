@@ -1,11 +1,11 @@
 import { HttpException } from "../exceptions/HttpException";
 import { PostNotFoundException } from "../exceptions/PostNotFoundException"
 import { NextFunction, Request, Response, Router } from "express";
-import { Post } from "../model/post.interface";
-import postModel from "../model/posts.model";
+import { Post } from "../post/post.interface";
+import postModel from "../post/posts.model";
 import { Controller } from "./controller.interface";
 import validationMiddleware from "../middlewares/validation.middleware";
-import { CreatePostDTO } from "../model/post.dto";
+import { CreatePostDTO } from "../post/post.dto";
 
 class PostContoller implements Controller {
 
