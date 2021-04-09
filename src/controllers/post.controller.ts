@@ -2,7 +2,7 @@ import { HttpException } from "../exceptions/HttpException";
 import { PostNotFoundException } from "../exceptions/PostNotFoundException"
 import { NextFunction, Request, Response, Router } from "express";
 import { Post } from "../model/post.interface";
-import post from "../model/posts.model";
+import postModel from "../model/posts.model";
 import { Controller } from "./controller.interface";
 import validationMiddleware from "../middlewares/validation.middleware";
 import { CreatePostDTO } from "../model/post.dto";
@@ -11,7 +11,7 @@ class PostContoller implements Controller {
 
     path: string = '/post';
     router: Router = Router();
-    private post = post;
+    private postModel = postModel;
 
     constructor() {
         this.initializeRoutes();
@@ -28,7 +28,7 @@ class PostContoller implements Controller {
     private getPostById = (request: Request, response: Response, next: NextFunction): void => {
         const postId = request.params.id;
         
-        this.post.findById(postId)
+        this.postModel.findById(postId)
             .then((post) => {
 
                 if (post) {
@@ -41,13 +41,13 @@ class PostContoller implements Controller {
     };
 
     private getAllPosts = (request: Request, response: Response): void => {
-        this.post.find()
+        this.postModel.find()
             .then((posts) => response.send(posts));
     };
 
     private createPost = (request: Request, response: Response): void => {
         const postData: Post = request.body;
-        const createdPost = new this.post(postData);
+        const createdPost = new this.postModel(postData);
 
         createdPost.save()
             .then((savedPost) => response.send(savedPost));
@@ -57,7 +57,7 @@ class PostContoller implements Controller {
         const postId = request.params.id;
         const postData: Post = request.body;
 
-        this.post.findByIdAndUpdate(postId, postData, { new: true })
+        this.postModel.findByIdAndUpdate(postId, postData, { new: true })
             .then((post) => {   
                 if (post) {
                     response.send(post)
@@ -71,7 +71,7 @@ class PostContoller implements Controller {
     private deletePost = (request: Request, response: Response, next: NextFunction): void => {
         const postId = request.params.id;
 
-        this.post.findByIdAndDelete(postId)
+        this.postModel.findByIdAndDelete(postId)
             .then((successResponse) => {
                 if (successResponse) {
                     response.send(200);
