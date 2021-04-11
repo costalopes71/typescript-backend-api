@@ -6,6 +6,7 @@ import postModel from "../post/posts.model";
 import { Controller } from "./controller.interface";
 import validationMiddleware from "../middlewares/validation.middleware";
 import { CreatePostDTO } from "../post/post.dto";
+import authMiddleware from "../middlewares/auth.middleware";
 
 class PostContoller implements Controller {
 
@@ -20,9 +21,11 @@ class PostContoller implements Controller {
     private initializeRoutes() {
         this.router.get(this.path, this.getAllPosts);
         this.router.get(`${this.path}/:id`, this.getPostById);
-        this.router.post(this.path, validationMiddleware(CreatePostDTO), this.createPost);
-        this.router.patch(`${this.path}/:id`, validationMiddleware(CreatePostDTO, true), this.modifyPost);
-        this.router.delete(`${this.path}/:id`, this.deletePost);
+
+        this.router.all(`${this.path}/*`, authMiddleware)
+            .patch(`${this.path}/:id`, validationMiddleware(CreatePostDTO, true), this.modifyPost)
+            .delete(`${this.path}/:id`, this.deletePost)
+            .post(this.path, authMiddleware, validationMiddleware(CreatePostDTO), this.createPost);
     }
     
     private getPostById = (request: Request, response: Response, next: NextFunction): void => {

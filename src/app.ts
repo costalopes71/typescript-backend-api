@@ -3,6 +3,7 @@ import * as express from "express";
 import * as mongoose from "mongoose";
 import { ConnectOptions } from "mongoose";
 import errorMiddleware from "./middlewares/error.middleware";
+import * as cookieParser from "cookie-parser";
 
 export class App {
 
@@ -32,6 +33,7 @@ export class App {
     
     private initializeMiddlewares() {
         this.app.use(express.json());
+        this.app.use(cookieParser());
 
         // initialize error middleware should always be last
         this.app.use(errorMiddleware);
