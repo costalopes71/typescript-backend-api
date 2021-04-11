@@ -52,10 +52,9 @@ class PostContoller implements Controller {
     private createPost = async (request: RequestWithUser, response: Response) => {
         const postData: Post = request.body;
         const createdPost = new this.postModel({
-            author: postData.author,
             content: postData.content,
             title: postData.title,
-            authorId: request.user!._id
+            author: request.user!._id
         });
 
         createdPost.save()
