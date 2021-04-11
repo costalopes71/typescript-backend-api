@@ -42,7 +42,8 @@ class AuthenticationController implements Controller {
             const newUser = await this.userModel.create({
                 name: userData.firstName,
                 email: userData.email,
-                password: hashedPassword
+                password: hashedPassword,
+                address: userData.address
             });
 
             const tokenData = this.createToken(newUser);

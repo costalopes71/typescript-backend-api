@@ -1,4 +1,4 @@
-import { IsString } from "class-validator";
+import { IsOptional, IsString } from "class-validator";
 
 export class CreateAddressDTO {
 
@@ -9,6 +9,7 @@ export class CreateAddressDTO {
     public city!: string;
 
     @IsString()
-    public country!: string;
+    @IsOptional()
+    public country?: string;
 
 }
