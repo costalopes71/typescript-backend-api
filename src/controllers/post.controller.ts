@@ -7,6 +7,7 @@ import { Controller } from "./controller.interface";
 import validationMiddleware from "../middlewares/validation.middleware";
 import { CreatePostDTO } from "../post/post.dto";
 import authMiddleware from "../middlewares/auth.middleware";
+import { RequestWithUser } from "../interfaces/requestwithuser.interface";
 
 class PostContoller implements Controller {
 
@@ -48,9 +49,14 @@ class PostContoller implements Controller {
             .then((posts) => response.send(posts));
     };
 
-    private createPost = (request: Request, response: Response): void => {
+    private createPost = async (request: RequestWithUser, response: Response) => {
         const postData: Post = request.body;
-        const createdPost = new this.postModel(postData);
+        const createdPost = new this.postModel({
+            author: postData.author,
+            content: postData.content,
+            title: postData.title,
+            authorId: request.user!._id
+        });
 
         createdPost.save()
             .then((savedPost) => response.send(savedPost));
