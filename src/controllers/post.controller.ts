@@ -44,9 +44,11 @@ class PostContoller implements Controller {
             });
     };
 
-    private getAllPosts = (request: Request, response: Response): void => {
-        this.postModel.find()
-            .then((posts) => response.send(posts));
+    private getAllPosts = async (request: Request, response: Response) => {
+        const posts = await postModel.find()
+            .populate('author', '-password');
+
+        response.send(posts);
     };
 
     private createPost = async (request: RequestWithUser, response: Response) => {
@@ -57,8 +59,10 @@ class PostContoller implements Controller {
             author: request.user!._id
         });
 
-        createdPost.save()
-            .then((savedPost) => response.send(savedPost));
+        const savedPost = await createdPost.save();
+        await savedPost.populate('author', '-password').execPopulate();
+
+        response.send(savedPost);
     }
 
     private modifyPost = (request: Request, response: Response, next: NextFunction): void => {
